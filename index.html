@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Pathfinder</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="styles/normalize.css" rel="stylesheet">
+        <link href="styles/main.css" rel="stylesheet">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
+    </head>
+    <body onload="brython()">
+        <div id="main-container">
+            <h1>A* Pathfinder</h1>
+            <div id="map-config-container">
+                <div id="map-container">
+                    <div id="pathfinding-map"></div>
+                </div>
+                <div class="config-menu">
+                    <div class="upper-config">
+                        <button id="start-button">Start Node</button>
+                        <button id="wall-button">Wall Node</button>
+                    </div>
+                    <div class="lower-config">
+                        <button id="end-button">End Node</button>
+                        <button id="restore-button">Restore Node</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/python" src="script/script.py"></script>
+    </body>
+</html>

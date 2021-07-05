@@ -1,0 +1,212 @@
+body {
+    font-family: Consolas, monaco, monospace;
+}
+
+#pathfinding-map {
+    width: 94vw;
+    height: 44vh;
+    border: 2px solid black;
+    display: grid;
+    grid-template-rows: repeat(var(--grid-rows), 1fr);
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    gap: 1px;
+}
+
+#map-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+}
+
+.config-menu {
+    height: 10vh;
+    width: 85vw;
+    border: 3px solid black;
+    margin: 5vw 0vh 0vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.lower-config,
+.upper-config {
+    display: grid;
+    gap: 0vw;
+}
+
+.node.start-node {
+    background-color: red;
+}
+
+.node.end-node {
+    background-color: blue;
+}
+
+.node.wall-node {
+    background-color: black;
+}
+
+.node {
+    background-color: white;
+}
+
+h1 {
+    font-size: 2.3em;
+    margin: 1vh;
+}
+
+#main-container {
+    padding: 3vh 0vh 0vh;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-evenly;
+}
+
+#map-config-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#start-button,
+#wall-button,
+#end-button,
+#restore-button {
+    margin: 0.5vh;
+    background-color: black;
+    border: transparent;
+    border-radius: 15%;
+    color: white;
+    cursor: pointer;
+}
+
+#wall-button {
+    background-color: white;
+    color: black;
+    border: solid;
+    border-color: black;
+    font-weight: bolder;
+}
+
+#start-button {
+    color: red;
+}
+
+#end-button {
+    color: blue;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    #map-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: black;
+    }
+
+    #pathfinding-map {
+        width: 53vw;
+        height: 40vh;
+        border: 2px solid black;
+        display: grid;
+        grid-template-rows: repeat(var(--grid-rows), 1fr);
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+        gap: 1px;
+    }
+
+    .config-menu {
+        height: 7vh;
+        width: 32vw;
+        border: 3px solid black;
+        margin: 2vw 0vh 0vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #main-container {
+        padding: 0vh 0vh 0vh;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: space-evenly;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+    #pathfinding-map {
+        width: 40vw;
+        height: 30vh;
+        border: 2px solid black;
+        display: grid;
+        grid-template-rows: repeat(var(--grid-rows), 1fr);
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+        gap: 1px;
+    }
+
+    .config-menu {
+        height: 5vh;
+        width: 25vw;
+        border: 3px solid black;
+        margin: 1vw 0vh 0vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+}
+
+@media (min-width: 1280px) {
+    #main-container {
+        padding: 0vh 0vh 0vh;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: space-evenly;
+    }
+
+    #map-config-container {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        
+    }
+
+    #pathfinding-map {
+        width: 42vw;
+        height: 87vh;
+        border: 1px solid black;
+        display: grid;
+        grid-template-rows: repeat(var(--grid-rows), 1fr);
+        grid-template-columns: repeat(var(--grid-columns), 1fr);
+        gap: 1px;
+    }
+
+    .config-menu {
+        height: 11vh;
+        width: 17vw;
+        border: 3px solid black;
+        margin-right: 1vw;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #map-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: black;
+    }
+}
