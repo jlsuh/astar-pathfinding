@@ -14,7 +14,6 @@ def paint_node(ev):
 def update_critical_nodes(current_target):
     global start_node
     global end_node
-    global current_class
     aux = None
     if current_class is 'start-node':
         aux = start_node
@@ -60,8 +59,6 @@ def bind_event(elems, on_event, f):
 @bind(document['end-button'], 'click')
 @bind(document['restore-button'], 'click')
 def add_class_colored(ev):
-    global start_node
-    global end_node
     global current_class
     id = ev.currentTarget.id
     if id is 'start-button':
@@ -78,7 +75,6 @@ def add_class_colored(ev):
 def start_pathfind(ev):
     space_bar = 32
     if ev.keyCode is space_bar:
-        global start_node
         try:
             scripts.a_star(start_node, end_node)
             # document.unbind("keydown"): might be good to cancel out various executions of this algorithm while solving
