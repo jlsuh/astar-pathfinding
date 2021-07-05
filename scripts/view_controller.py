@@ -1,12 +1,13 @@
 from browser import document, bind
+import scripts
 
 
 def paint_node(ev):
-    global current_class
     current_target = ev.currentTarget
     current_target['class'] = 'node'
     current_target.classList.add(current_class)
     update_critical_nodes(current_target)
+    print("Start node: " + str(start_node) + "\nEnd node: " + str(end_node) + '\n')
 
 
 # TODO: this is so ugly
@@ -36,13 +37,11 @@ def update_critical_nodes(current_target):
 
 
 def set_dimentions(rows, columns):
-    global pathfind_map
     pathfind_map.style.setProperty('--grid-rows', rows)
     pathfind_map.style.setProperty('--grid-columns', columns)
 
 
 def initiate_grid(rows, columns):
-    global pathfind_map
     set_dimentions(rows, columns)
     for _ in range(rows * columns):
         cell = document.createElement('div')
@@ -76,10 +75,16 @@ def add_class_colored(ev):
 
 
 @bind(document, 'keydown')
-def a_star_pathfind(ev):
-    if ev.keyCode is 32:
-        print("Something")
-        # document.unbind("keydown") -> might be good to cancel out various executions of this algorithm while solving
+def start_pathfind(ev):
+    space_bar = 32
+    if ev.keyCode is space_bar:
+        global start_node
+        try:
+            scripts.a_star(start_node, end_node)
+            # document.unbind("keydown"): might be good to cancel out various executions of this algorithm while solving
+        except NameError:
+            pass
+        # TODO: except UndefinedCriticalNodes:
     ev.preventDefault()
 
 
