@@ -75,6 +75,14 @@ def add_class_colored(ev):
         current_class = 'node'
 
 
+@bind(document, 'keydown')
+def a_star_pathfind(ev):
+    if ev.keyCode is 32:
+        print("Something")
+        # document.unbind("keydown") -> might be good to cancel out various executions of this algorithm while solving
+    ev.preventDefault()
+
+
 if __name__ == '__main__':
     pathfind_map = document['pathfinding-map']
 
