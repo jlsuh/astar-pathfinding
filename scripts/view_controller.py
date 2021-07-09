@@ -1,5 +1,5 @@
 from browser import document, bind
-import scripts
+from scripts import Node, a_star
 
 
 def paint_node(ev):
@@ -76,12 +76,58 @@ def start_pathfind(ev):
     space_bar = 32
     if ev.keyCode is space_bar:
         try:
-            scripts.a_star(start_node, end_node)
+            map = get_map()
+            map_of_nodes = get_map_of_nodes(map)
+            start = get_node(map, start_node)
+            end = get_node(map, end_node)
+            walls = get_wall_nodes(map)
+            result = a_star(map_of_nodes, walls, start, end, ROWS, COLUMNS)
+            print(result)
             # document.unbind("keydown"): might be good to cancel out various executions of this algorithm while solving
         except NameError:
             pass
         # TODO: except UndefinedCriticalNodes:
     ev.preventDefault()
+
+
+def get_node(map, target_node):
+    for i in range(COLUMNS):
+        for j in range(ROWS):
+            if target_node is map[i][j]:
+                return Node(i, j)
+    return None
+
+
+def get_wall_nodes(map):
+    walls = []
+    for x in range(COLUMNS):
+        for y in range(ROWS):
+            if 'wall-node' in map[x][y].classList:
+                walls.append(Node(x,y))
+                # walls.append(f"({x}, {y})")
+    return walls
+
+
+def get_map_of_nodes(map):
+    rows = []
+    for x in range(COLUMNS):
+        column = []
+        for y in range(ROWS):
+            column.append(Node(x,y))
+        rows.append(column)
+    return rows
+
+
+def get_map():
+    k = 0
+    rows = []
+    for x in range(COLUMNS):
+        column = []
+        for y in range(ROWS):
+            column.append(nodes[k])
+            k += 1
+        rows.append(column)
+    return rows
 
 
 if __name__ == '__main__':
@@ -90,7 +136,10 @@ if __name__ == '__main__':
     start_node = None
     end_node = None
 
-    initiate_grid(40, 40)
+    ROWS = 40
+    COLUMNS = 40
+
+    initiate_grid(ROWS, COLUMNS)
 
     nodes = document.select('.node')
 
