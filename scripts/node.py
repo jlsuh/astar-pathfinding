@@ -1,9 +1,8 @@
 class Node:
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, g_cost, h_cost):
         self.x = x
         self.y = y
-        self.f_cost = 0
-        self.g_cost = 0
-        self.h_cost = 0
+        self.g_cost = g_cost
+        self.h_cost = h_cost
         self.parent = None

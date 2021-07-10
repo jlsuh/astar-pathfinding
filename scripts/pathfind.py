@@ -2,35 +2,55 @@ from scripts import Node
 from browser import timer
 
 
-def a_star(map_of_nodes, wall_nodes, start_node, end_node, rows, columns):
-    open = []
-    open.append(start_node)
-    closed = set()
-    set_costs(map_of_nodes, start_node, end_node, rows, columns)
-    print_costs(map_of_nodes, rows, columns)
-    while len(open) > 0:
-        lowest_f_node = get_node_with_lowest_f_cost(open)
-        print_after(lowest_f_node)
-        if lowest_f_node is end_node:
-            return "End node found"
-        open.remove(lowest_f_node)
-        closed.add(lowest_f_node)
-        for node in possible_nodes_from(lowest_f_node, wall_nodes, rows, columns):
-            print_after(node)
-            if node in closed:
+def a_star(map_with_costs_, html_matrix_nodes, wall_nodes, start_node, end_node, rows, columns):
+    open_set = set()
+    closed_set = set()
+    open_set.add(start_node)
+    print_list(wall_nodes)
+    while open_set:
+        current = min(open_set, key=lambda n: n.g_cost + n.h_cost)
+        if current.x == end_node.x and current.y == end_node.y:
+            return "Path Found"
+        open_set.remove(current)
+        closed_set.add(current)
+        set_color(html_matrix_nodes, current, start_node, end_node)
+        possible_nodes = possible_nodes_from(current, wall_nodes, rows, columns, map_with_costs_, closed_set)
+        for node in possible_nodes:
+            if node in closed_set:
                 continue
-            if node not in open:
-                open.append(node)
+            if node in open_set:
+                new_g_cost = current.g_cost + 1
+                if node.g_cost > new_g_cost:
+                    node.g_cost = new_g_cost
+                    node.parent = current
             else:
-                current_node = open.pop(open.index(node))
-                print_after(current_node)
-                if node.g_cost < current_node.g_cost:
-                    current_node.g_cost = node.g_cost
-                    current_node.f_cost = node.f_cost
-                    current_node.parent = node.parent
-                open.append(current_node)
-                print_after(current_node)
-    return "No path found"
+                node.g_cost = current.g_cost + 1
+                node.h_cost = manhattan_distance(node, end_node)
+                node.parent = current
+                open_set.add(node)
+                set_color(html_matrix_nodes, node, start_node, end_node)
+    raise ValueError("No path found")
+
+
+def set_color(html_matrix_nodes, current, start, end):
+    if current != start and current != end:
+        html_matrix_nodes[current.x][current.y].style.backgroundColor = '#0f0'
+
+
+def print_list(set_):
+    for i in set_:
+        print(f"({i.x}, {i.y})", end=" ")
+    print()
+
+
+def get_path(final_map, nodes, rows, columns):
+    for i in range(columns):
+        for j in range(rows):
+            if final_map[j][i].parent is None:
+                continue
+            else:
+                nodes[j][i] = " "
+    return nodes
 
 
 def print_after(node):
@@ -54,16 +74,31 @@ def find_element(list, target):
             return list[i]
 
 
-def possible_nodes_from(pivot, wall_nodes, rows, columns):
+def is_position_of_any(set_, target):
+    for node in set_:
+        if target.x == node.x and target.y == node.y:
+            return True
+    return False
+
+
+def possible_nodes_from(pivot, wall_nodes_, rows, columns, map_of_nodes_, closed_set):
     possible_nodes = []
-    if pivot.x - 1 >= 0 and pivot not in wall_nodes:
-        possible_nodes.append(Node(pivot.x - 1, pivot.y))
-    if pivot.y - 1 >= 0 and pivot not in wall_nodes:
-        possible_nodes.append(Node(pivot.x, pivot.y - 1))
-    if pivot.x + 1 < columns and pivot not in wall_nodes:
-        possible_nodes.append(Node(pivot.x + 1, pivot.y))
-    if pivot.y + 1 < rows and pivot not in wall_nodes:
-        possible_nodes.append(Node(pivot.x, pivot.y + 1))
+    if pivot.x - 1 >= 0:
+        node = map_of_nodes_[pivot.x - 1][pivot.y]
+        if not is_position_of_any(wall_nodes_, node) and not is_position_of_any(closed_set, node):
+            possible_nodes.append(node)
+    if pivot.y - 1 >= 0:
+        node = map_of_nodes_[pivot.x][pivot.y - 1]
+        if not is_position_of_any(wall_nodes_, node) and not is_position_of_any(closed_set, node):
+            possible_nodes.append(node)
+    if pivot.x + 1 < columns:
+        node = map_of_nodes_[pivot.x + 1][pivot.y]
+        if not is_position_of_any(wall_nodes_, node) and not is_position_of_any(closed_set, node):
+            possible_nodes.append(node)
+    if pivot.y + 1 < rows:
+        node = map_of_nodes_[pivot.x][pivot.y + 1]
+        if not is_position_of_any(wall_nodes_, node) and not is_position_of_any(closed_set, node):
+            possible_nodes.append(node)
     return possible_nodes
 
 
