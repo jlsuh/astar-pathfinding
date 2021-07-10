@@ -13,7 +13,7 @@ def a_star(map_with_costs_, html_matrix_nodes, wall_nodes, start_node, end_node,
             return "Path Found"
         open_set.remove(current)
         closed_set.add(current)
-        set_color(html_matrix_nodes, current, start_node, end_node)
+        set_color(html_matrix_nodes, current, start_node, end_node, '#8B0000')
         possible_nodes = possible_nodes_from(current, wall_nodes, rows, columns, map_with_costs_, closed_set)
         for node in possible_nodes:
             if node in closed_set:
@@ -28,13 +28,17 @@ def a_star(map_with_costs_, html_matrix_nodes, wall_nodes, start_node, end_node,
                 node.h_cost = manhattan_distance(node, end_node)
                 node.parent = current
                 open_set.add(node)
-                set_color(html_matrix_nodes, node, start_node, end_node)
+                set_color(html_matrix_nodes, node, start_node, end_node, '#0f0')
     raise ValueError("No path found")
 
 
-def set_color(html_matrix_nodes, current, start, end):
-    if current != start and current != end:
-        html_matrix_nodes[current.x][current.y].style.backgroundColor = '#0f0'
+def is_same_position(node1, node2):
+    return node1.x == node2.x and node1.y == node2.y
+
+
+def set_color(html_matrix_nodes, current, start, end, color):
+    if not is_same_position(current, start) and not is_same_position(current, end):
+        html_matrix_nodes[current.x][current.y].style.backgroundColor = color
 
 
 def print_list(set_):
