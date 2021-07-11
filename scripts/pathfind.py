@@ -1,5 +1,6 @@
-from scripts import Node
-from browser import timer
+from threading import Timer
+
+id_timer = 1
 
 
 def a_star(map_with_costs_, html_matrix_nodes, wall_nodes, start_node, end_node, rows, columns):
@@ -32,6 +33,14 @@ def a_star(map_with_costs_, html_matrix_nodes, wall_nodes, start_node, end_node,
     raise ValueError("No path found")
 
 
+# def sleep(secs):
+#     return timer.set_timeout(dummy, secs)
+
+
+def dummy():
+    print("Dummy")
+
+
 def is_same_position(node1, node2):
     return node1.x == node2.x and node1.y == node2.y
 
@@ -55,10 +64,6 @@ def get_path(final_map, nodes, rows, columns):
             else:
                 nodes[j][i] = " "
     return nodes
-
-
-def print_after(node):
-    timer.set_timeout(print_node(node), 2000)
 
 
 def print_node(node):

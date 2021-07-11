@@ -178,8 +178,8 @@ if __name__ == '__main__':
     start_node = None
     end_node = None
 
-    ROWS = 10
-    COLUMNS = 10
+    ROWS = 30
+    COLUMNS = 30
 
     initiate_grid(ROWS, COLUMNS)
 
