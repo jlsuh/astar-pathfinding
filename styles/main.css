@@ -21,7 +21,7 @@ body {
 }
 
 .config-menu {
-    height: 10vh;
+    height: 12vh;
     width: 85vw;
     border: 3px solid black;
     margin: 5vw 0vh 0vh;
@@ -31,10 +31,11 @@ body {
     justify-content: space-evenly;
 }
 
-.lower-config,
-.upper-config {
-    display: grid;
-    gap: 0vw;
+.right-config,
+.left-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .node.start-node {
@@ -76,7 +77,9 @@ h1 {
 #start-button,
 #wall-button,
 #end-button,
-#restore-button {
+#restore-button,
+#restore-map-button,
+#new-map-button {
     margin: 0.5vh;
     background-color: black;
     border: transparent;
@@ -101,112 +104,73 @@ h1 {
     color: blue;
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-    #map-container {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: black;
-    }
+.path-node {
+    background-color: #d4af37 !important;
+}
 
+.open-node {
+    background-color: green;
+}
+
+.closed-node {
+    background-color: darkred;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
     #pathfinding-map {
         width: 53vw;
         height: 40vh;
-        border: 2px solid black;
-        display: grid;
-        grid-template-rows: repeat(var(--grid-rows), 1fr);
-        grid-template-columns: repeat(var(--grid-columns), 1fr);
-        gap: 1px;
     }
 
     .config-menu {
-        height: 7vh;
+        height: 9vh;
         width: 32vw;
-        border: 3px solid black;
-        margin: 2vw 0vh 0vh;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
+        margin: 1vw 0vh 0vh;
     }
 
     #main-container {
         padding: 0vh 0vh 0vh;
-        white-space: nowrap;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        align-content: space-evenly;
     }
 }
 
 @media (min-width: 1024px) and (max-width: 1280px) {
     #pathfinding-map {
-        width: 40vw;
-        height: 30vh;
-        border: 2px solid black;
-        display: grid;
-        grid-template-rows: repeat(var(--grid-rows), 1fr);
-        grid-template-columns: repeat(var(--grid-columns), 1fr);
-        gap: 1px;
+        width: 48vw;
+        height: 36vh;
     }
 
     .config-menu {
-        height: 5vh;
+        height: 8vh;
         width: 25vw;
-        border: 3px solid black;
-        margin: 1vw 0vh 0vh;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-}
-
-@media (min-width: 1280px) {
-    #main-container {
-        padding: 0vh 0vh 0vh;
-        white-space: nowrap;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        align-content: space-evenly;
+        margin-right: 2vw;
     }
 
     #map-config-container {
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        
+    }
+}
+
+@media (min-width: 1280px) {
+    #main-container {
+        padding: 0vh 0vh 0vh;
+    }
+
+    #map-config-container {
+        flex-direction: row-reverse;
     }
 
     #pathfinding-map {
         width: 42vw;
         height: 87vh;
         border: 1px solid black;
-        display: grid;
-        grid-template-rows: repeat(var(--grid-rows), 1fr);
-        grid-template-columns: repeat(var(--grid-columns), 1fr);
-        gap: 1px;
     }
 
     .config-menu {
-        height: 11vh;
+        height: 14vh;
         width: 17vw;
-        border: 3px solid black;
-        margin-right: 1vw;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-
-    #map-container {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: black;
+        margin-right: 2vw;
+        padding: 1vw;
     }
 }
