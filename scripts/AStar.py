@@ -5,7 +5,6 @@ class AStar():
         open_set = set()
         closed_set = set()
         open_set.add(start_node)
-        self.print_list(wall_nodes)
         while open_set:
             current = min(open_set, key=lambda n: n.g_cost + n.h_cost)
             html_nodes[current.x][current.y].text = str(step)
@@ -47,39 +46,6 @@ class AStar():
             html_matrix_nodes[current.x][current.y].style.backgroundColor = color
 
 
-    def print_list(self, set_):
-        for i in set_:
-            print(f"({i.x}, {i.y})", end=" ")
-        print()
-
-
-    def get_path(self, final_map, nodes, rows, columns):
-        for i in range(columns):
-            for j in range(rows):
-                if final_map[j][i].parent is None:
-                    continue
-                else:
-                    nodes[j][i] = " "
-        return nodes
-
-
-    def print_node(self, node):
-        print(f"Current node: g: {node.g_cost} | h: {node.h_cost} | f: {node.f_cost} | ({node.x}, {node.y})")
-
-
-    def print_costs(self, map_of_nodes, rows, columns):
-        for i in range(rows):
-            for j in range(columns):
-                node = map_of_nodes[i][j]
-                print(f"g: {node.g_cost} | h: {node.h_cost} | f: {node.f_cost} | ({node.x}, {node.y})")
-
-
-    def find_element(self, list, target):
-        for i in list:
-            if target is list[i]:
-                return list[i]
-
-
     def is_position_of_any(self, set_, target):
         for node in set_:
             if target.x == node.x and target.y == node.y:
@@ -87,6 +53,7 @@ class AStar():
         return False
 
 
+    # TODO: There are several ways of improving this
     def possible_nodes_from(self, pivot, wall_nodes_, rows, columns, map_of_nodes_, closed_set):
         possible_nodes = []
         if pivot.x - 1 >= 0:
@@ -106,21 +73,6 @@ class AStar():
             if not self.is_position_of_any(wall_nodes_, node) and not self.is_position_of_any(closed_set, node):
                 possible_nodes.append(node)
         return possible_nodes
-
-
-    def get_node_with_lowest_f_cost(self, list):
-        sorted_list = sorted(list, key = lambda x: x.f_cost)
-        return sorted_list[0]
-
-
-    def set_costs(self, map_of_nodes, start_node, end_node, rows, columns):
-        for i in range(columns):
-            for j in range(rows):
-                distance_to_start = self.manhattan_distance(map_of_nodes[i][j], start_node)
-                distance_to_end = self.manhattan_distance(map_of_nodes[i][j], end_node)
-                map_of_nodes[i][j].g_cost = distance_to_start
-                map_of_nodes[i][j].h_cost = distance_to_end
-                map_of_nodes[i][j].f_cost = distance_to_start + distance_to_end
 
 
     def manhattan_distance(self, start, goal):

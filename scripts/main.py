@@ -1,7 +1,5 @@
-from typing import Collection
 from browser import document, bind
-from scripts import Node, pathfind
-from scripts import AStar
+from scripts import Node, AStar
 
 
 def paint_node(ev):
@@ -97,7 +95,6 @@ def start_pathfind(ev):
             set_node_costs(end_node, map_of_costs)
 
             path = AStar().find_path(map_of_costs, map_html_nodes, walls, start_node, end_node, ROWS, COLUMNS)
-            print(path)
             paint_path(path, start_node, end_node)
 
             # TODO: document.unbind("keydown")
@@ -138,12 +135,6 @@ def set_costs(map_of_nodes, start_node, end_node):
         row.append(column)
     return row
 
-"""
-def print_list(self, set_):
-    for i in set_:
-        print(f"({i.x}, {i.y})", end=" ")
-    print()
-"""
 
 def get_node(map_of_nodes, target):
     global ROWS
@@ -197,8 +188,8 @@ if __name__ == '__main__':
     pathfind_map = document['pathfinding-map']
     start_html_node = None
     end_html_node = None
-    ROWS = 10
-    COLUMNS = 10
+    ROWS = 30
+    COLUMNS = 30
 
     initiate_grid(ROWS, COLUMNS)
 

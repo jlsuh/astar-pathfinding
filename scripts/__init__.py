@@ -1,3 +1,3 @@
 from .node import *
-from .pathfind import *
-from .view_controller import *
+from .AStar import *
+from .main import *
