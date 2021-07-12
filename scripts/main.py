@@ -75,7 +75,6 @@ def add_colored_class(ev):
 
 @bind(document, 'keydown')
 def start_pathfind(ev):
-    global html_nodes
     global start_html_node
     global end_html_node
     global ROWS
@@ -83,7 +82,7 @@ def start_pathfind(ev):
     space_bar = 32
     if ev.keyCode is space_bar:
         try:
-            map_html_nodes = get_matrix_from_list(html_nodes)
+            map_html_nodes = get_matrix_from_list(document.select('.node'))
             nodes = generate_map_of_nodes()
             start_node = get_node(map_html_nodes, start_html_node)
             end_node = get_node(map_html_nodes, end_html_node)
@@ -96,20 +95,34 @@ def start_pathfind(ev):
 
             path = AStar().find_path(map_of_costs, map_html_nodes, walls, start_node, end_node, ROWS, COLUMNS)
             paint_path(path, start_node, end_node)
-
-            # TODO: document.unbind("keydown")
         except NameError:
             pass
         # TODO: except UndefinedCriticalNodes:
     ev.preventDefault()
 
 
+@bind(document['restore-map-button'], 'click')
+def restore_map(_):
+    for i in document.select('.node'):
+        i.classList.remove('path-node')
+        i.classList.remove('open-node')
+        i.classList.remove('closed-node')
+
+
+@bind(document['new-map-button'], 'click')
+def new_map(_):
+    for i in document.select('.node'):
+        i.classList.remove('start-node')
+        i.classList.remove('end-node')
+        i.classList.remove('wall-node')
+    restore_map(_)
+
+
 def paint_path(path, start_node, end_node):
-    global html_nodes
-    matrix = get_matrix_from_list(html_nodes)
+    matrix = get_matrix_from_list(document.select('.node'))
     for node in path:
         if not AStar().is_same_position(node, start_node) and not AStar().is_same_position(node, end_node):
-            matrix[node.x][node.y].style.backgroundColor = '#d4af37'
+            matrix[node.x][node.y].classList.add('path-node')
 
 
 def set_node_costs(node, map_of_costs):

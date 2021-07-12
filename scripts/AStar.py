@@ -1,23 +1,16 @@
 class AStar():
 
     def find_path(self, map_of_costs, html_nodes, wall_nodes, start_node, end_node, rows, columns):
-        step = 1
         open_set = set()
         closed_set = set()
         open_set.add(start_node)
         while open_set:
             current = min(open_set, key=lambda n: n.g_cost + n.h_cost)
-            html_nodes[current.x][current.y].text = str(step)
             if current.x == end_node.x and current.y == end_node.y:
-                path = []
-                while current.parent:
-                    path.append(current)
-                    current = current.parent
-                path.append(current)
-                return path[::-1]
+                return self.path(current)
             open_set.remove(current)
             closed_set.add(current)
-            self.set_color(html_nodes, current, start_node, end_node, '#8B0000')
+            self.set_color(html_nodes, current, start_node, end_node, 'closed-node')
             possible_nodes = self.possible_nodes_from(current, wall_nodes, rows, columns, map_of_costs, closed_set)
             for node in possible_nodes:
                 if node in closed_set:
@@ -32,18 +25,26 @@ class AStar():
                     node.h_cost = self.manhattan_distance(node, end_node)
                     node.parent = current
                     open_set.add(node)
-                    self.set_color(html_nodes, node, start_node, end_node, '#0f0')
-            step += 1
+                    self.set_color(html_nodes, node, start_node, end_node, 'open-node')
         raise ValueError("No path found")
+
+
+    def set_color(self, html_matrix_nodes, current, start, end, node_status):
+        if not self.is_same_position(current, start) and not self.is_same_position(current, end):
+            html_matrix_nodes[current.x][current.y].classList.add(node_status)
+
+
+    def path(self, current):
+        path = []
+        while current.parent:
+            path.append(current)
+            current = current.parent
+        path.append(current)
+        return path[::-1]
 
 
     def is_same_position(self, node1, node2):
         return node1.x == node2.x and node1.y == node2.y
-
-
-    def set_color(self, html_matrix_nodes, current, start, end, color):
-        if not self.is_same_position(current, start) and not self.is_same_position(current, end):
-            html_matrix_nodes[current.x][current.y].style.backgroundColor = color
 
 
     def is_position_of_any(self, set_, target):
