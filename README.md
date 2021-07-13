@@ -26,7 +26,7 @@ f cost is nothing but the sum of the cost to reach that node from start (initial
 
 For any give node f score is defined as:
 <div align="center">
-    <img src="https://latex.codecogs.com/svg.image?f(x)&space;=&space;g(x)&space;&plus;&space;h(x)" title="f(x) = g(x) + h(x)" />
+    <img src="https://latex.codecogs.com/png.image?\dpi{150}&space;\bg_white&space;f(x)&space;=&space;g(x)&space;&plus;&space;h(x)" title="\bg_white f(x) = g(x) + h(x)" />
 </div>
 
 where `g(x)` is the cost of that node relative to the initial node, while `h(x)` is the calculated heuristic of that node.
@@ -35,14 +35,14 @@ where `g(x)` is the cost of that node relative to the initial node, while `h(x)`
 `g cost` is defined as the sum of the parent's g cost and the cost of travelling to that node from its parent:
 
 <div align="center">
-    <img src="https://latex.codecogs.com/svg.image?g(x)&space;=&space;g(x.parent)&space;&plus;&space;cost(x.parent,&space;x)" title="g(x) = g(x.parent) + cost(x.parent, x)" />
+    <img src="https://latex.codecogs.com/png.image?\dpi{150}&space;\bg_white&space;g(x)&space;=&space;g(x.parent)&space;&plus;&space;cost(x.parent,&space;x)" title="\bg_white g(x) = g(x.parent) + cost(x.parent, x)" />
 </div>
 
 ### What is h cost (heuristic)?
 Heuristic needs to be admissible for each type of problem. To simplify the given implementaiton `h cost` was defined as the manhattan distance from the current node to the objetive node:
 
 <div align="center">
-    <img src="https://latex.codecogs.com/svg.image?h(x)&space;=&space;|start.x&space;-&space;objective.x|&space;&plus;&space;|start.y&space;-&space;objective.y|" title="h(x) = |start.x - objective.x| + |start.y - objective.y|" />
+    <img src="https://latex.codecogs.com/png.image?\dpi{150}&space;\bg_white&space;h(x)&space;=&space;|start.x&space;-&space;objective.x|&space;&plus;&space;|start.y&space;-&space;objective.y|" title="\bg_white h(x) = |start.x - objective.x| + |start.y - objective.y|" />
 </div>
 
 ## TODO List
