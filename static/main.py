@@ -165,13 +165,14 @@ def add_colored_class(ev):
 
 
 @bind(document, 'keydown')
+@bind(document['start-pathfind-button'], 'click')
 def start_pathfind(ev):
     global start_html_node
     global end_html_node
     global ROWS
     global COLUMNS
     space_bar = 32
-    if ev.keyCode is space_bar:
+    if ev.type == 'click' or ev.keyCode is space_bar:
         try:
             map_html_nodes = get_matrix_from_list(document.select('.node'))
             nodes = generate_map_of_nodes()

@@ -29,6 +29,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+    font-size: 3.4vw;
 }
 
 .right-config,
@@ -79,7 +80,8 @@ h1 {
 #end-button,
 #restore-button,
 #restore-map-button,
-#new-map-button {
+#new-map-button,
+#start-pathfind-button {
     margin: 0.5vh;
     background-color: black;
     border: transparent;
@@ -124,8 +126,9 @@ h1 {
 
     .config-menu {
         height: 9vh;
-        width: 32vw;
+        width: 50vw;
         margin: 1vw 0vh 0vh;
+        font-size: 2vw;
     }
 
     #main-container {
@@ -141,8 +144,17 @@ h1 {
 
     .config-menu {
         height: 8vh;
-        width: 25vw;
-        margin-right: 2vw;
+        width: 38vw;
+        margin-right: 4vw;
+        font-size: 1.5vw;
+    }
+
+    #map-container {
+        width: 52.7%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: black;
     }
 
     #map-config-container {
@@ -168,9 +180,10 @@ h1 {
     }
 
     .config-menu {
-        height: 14vh;
-        width: 17vw;
+        height: 10vh;
+        width: 24vw;
         margin-right: 2vw;
         padding: 1vw;
+        font-size: 1.05vw;
     }
 }
