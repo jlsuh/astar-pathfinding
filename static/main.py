@@ -1,4 +1,4 @@
-from browser import document, bind
+from browser import document, bind, alert
 
 
 class Node:
@@ -20,7 +20,7 @@ class AStar:
         while open_set:
             current = min(open_set, key=lambda n: n.g_cost + n.h_cost)
             if current.x == end_node.x and current.y == end_node.y:
-                return self.path(current)
+                return self.get_path(current)
             open_set.remove(current)
             closed_set.add(current)
             self.set_color(html_nodes, current, start_node, end_node, 'closed-node')
@@ -47,7 +47,7 @@ class AStar:
             html_matrix_nodes[current.x][current.y].classList.add(node_status)
 
 
-    def path(self, current):
+    def get_path(self, current):
         path = []
         while current.parent:
             path.append(current)
@@ -62,30 +62,28 @@ class AStar:
 
     def is_position_of_any(self, set_, target):
         for node in set_:
-            if target.x == node.x and target.y == node.y:
+            if self.is_same_position(target, node):
                 return True
         return False
 
 
-    # TODO: There are several ways of improving this
     def possible_nodes_from(self, pivot, wall_nodes_, rows, columns, map_of_nodes_, closed_set):
+        possible_movements = [
+            (-1, 0),
+            (0, -1),
+            (0, 1),
+            (1, 0)
+        ]
         possible_nodes = []
-        if pivot.x - 1 >= 0:
-            node = map_of_nodes_[pivot.x - 1][pivot.y]
-            if not self.is_position_of_any(wall_nodes_, node) and not self.is_position_of_any(closed_set, node):
-                possible_nodes.append(node)
-        if pivot.y - 1 >= 0:
-            node = map_of_nodes_[pivot.x][pivot.y - 1]
-            if not self.is_position_of_any(wall_nodes_, node) and not self.is_position_of_any(closed_set, node):
-                possible_nodes.append(node)
-        if pivot.x + 1 < columns:
-            node = map_of_nodes_[pivot.x + 1][pivot.y]
-            if not self.is_position_of_any(wall_nodes_, node) and not self.is_position_of_any(closed_set, node):
-                possible_nodes.append(node)
-        if pivot.y + 1 < rows:
-            node = map_of_nodes_[pivot.x][pivot.y + 1]
-            if not self.is_position_of_any(wall_nodes_, node) and not self.is_position_of_any(closed_set, node):
-                possible_nodes.append(node)
+        current_x = pivot.x
+        current_y = pivot.y
+        for movement in possible_movements:
+            x = current_x + movement[0]
+            y = current_y + movement[1]
+            if 0 <= x < columns and 0 <= y < rows:
+                node = map_of_nodes_[x][y]
+                if not self.is_position_of_any(wall_nodes_, node) and not self.is_position_of_any(closed_set, node):
+                    possible_nodes.append(node)
         return possible_nodes
 
 
@@ -101,7 +99,6 @@ def paint_node(ev):
     update_critical_nodes(current_target)
 
 
-# TODO: this is so ugly
 def update_critical_nodes(current_target):
     global _current_class
     global start_html_node
@@ -122,7 +119,6 @@ def update_critical_nodes(current_target):
             start_html_node = None
         elif current_target is end_html_node:
             end_html_node = None
-
     if aux is not None and aux is not current_target:
         aux['class'] = 'node'
 
@@ -138,7 +134,6 @@ def initiate_grid(rows, columns):
     for _ in range(rows * columns):
         cell = document.createElement('div')
         cell['class'] = 'node'
-        # cell.style.backgroundColor = '#fff'
         pathfind_map <= cell
 
 
@@ -154,6 +149,7 @@ def bind_event(elems, on_event, f):
 def add_colored_class(ev):
     global _current_class
     id_ = ev.currentTarget.id
+    # TODO: type tests
     if id_ is 'start-button':
         _current_class = 'start-node'
     elif id_ is 'wall-button':
@@ -189,7 +185,8 @@ def start_pathfind(ev):
             paint_path(path, start_node, end_node)
         except NameError:
             pass
-        # TODO: except UndefinedCriticalNodes:
+        except ValueError as error:
+            alert(error)
     ev.preventDefault()
 
 
@@ -203,11 +200,15 @@ def restore_map(_):
 
 @bind(document['new-map-button'], 'click')
 def new_map(_):
+    global start_html_node
+    global end_html_node
     for i in document.select('.node'):
         i.classList.remove('start-node')
         i.classList.remove('end-node')
         i.classList.remove('wall-node')
     restore_map(_)
+    start_html_node = None
+    end_html_node = None
 
 
 def paint_path(path, start_node, end_node):
@@ -228,6 +229,8 @@ def set_node_costs(node, map_of_costs):
 
 
 def set_costs(map_of_nodes, start_node, end_node):
+    if start_node == None or end_node == None:
+        raise ValueError("Undefined critical nodes: start/end node missing")
     global ROWS
     global COLUMNS
     row = []
